@@ -7,7 +7,7 @@ public class StudentMain {
     public static void main(String[] args) {
         // 1. 학생 추가 테스트
         System.out.println("=== 학생 추가 테스트 ===");
-        String newStudentId = StudentService.insert("S2024001", "김철수", 1, 2, "010-1234-5678");
+        String newStudentId = StudentService.insert("S2024001", "김철수", "CS001", 2, "010-1234-5678");
         if (newStudentId != null) {
             System.out.println("새 학생 추가 성공: " + newStudentId);
         } else {
@@ -31,7 +31,7 @@ public class StudentMain {
 
         // 4. 학생 정보 업데이트 테스트
         System.out.println("\n=== 학생 정보 업데이트 ===");
-        int updateResult = StudentService.updateById("S2024001", "김철수", "2", 3, "010-8765-4321");
+        int updateResult = StudentService.updateById("S2024001", "김철수", "CS001", 3, "010-8765-4321");
         if (updateResult > 0) {
             System.out.println("학생 정보 업데이트 성공");
         } else {

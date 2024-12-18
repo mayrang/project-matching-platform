@@ -11,12 +11,12 @@ public class StudentService {
 
     private static Student setStudent(ResultSet rs) throws SQLException {
         String student_id = rs.getString("student_id");
-        String name = rs.getString("name");
-        String major = rs.getString("major");
+        String student_name = rs.getString("student_name");
+        String major_id = rs.getString("major_id");
         Integer grade = rs.getInt("grade");
         String contact = rs.getString("contact");
 
-        return new Student(student_id, name, major, grade, contact);
+        return new Student(student_id, student_name, major_id, grade, contact);
     }
 
     public static List<Student> selectAll() {
@@ -28,8 +28,9 @@ public class StudentService {
 
         try (Connection conn = DriverManager.getConnection(Conf.DB_URL, Conf.DB_USER, Conf.DB_PASSWORD)) {
 
-            String query = "SELECT S.*, M.major_name, M.classification FROM student S, major M"
-                    + "WHERE M.major_id = S.major_id ";
+            String query = "SELECT S.student_id, S.student_name, S.major_id, S.grade, S.contact, M.major_name, M.classification " +
+                    "FROM student S " +
+                    "JOIN major M ON M.major_id = S.major_id";;
             psmtQuery = conn.prepareStatement(query);
             rs = psmtQuery.executeQuery();
             while (rs.next()) {
@@ -84,7 +85,7 @@ public class StudentService {
         return studentList;
     }
 
-    public static String insert(final String student_id, final String name , final int major_id, final Integer grade, final String contact) {
+    public static String insert(final String student_id, final String student_name , final String major_id, final Integer grade, final String contact) {
 
 
         ResultSet rs = null;
@@ -93,13 +94,13 @@ public class StudentService {
 
         try (Connection conn = DriverManager.getConnection(Conf.DB_URL, Conf.DB_USER, Conf.DB_PASSWORD)) {
             conn.setAutoCommit(false);
-            String insertStatement = "INSERT INTO student VALUES (?,?,?,?,?,?)";
+            String insertStatement = "INSERT INTO student VALUES (?,?,?,?,?)";
 
             psmtUpdate = conn.prepareStatement(insertStatement);
 
             psmtUpdate.setString(1, student_id);
-            psmtUpdate.setString(2, name);
-            psmtUpdate.setInt(3, major_id);
+            psmtUpdate.setString(2, student_name);
+            psmtUpdate.setString(3, major_id);
             psmtUpdate.setInt(4, grade);
             psmtUpdate.setString(5, contact);
             if (psmtUpdate.executeUpdate() > 0) {
@@ -137,7 +138,7 @@ public class StudentService {
         }
     }
 
-    public static int updateById(final String student_id, final String name , final String major_id, final Integer grade, final String contact) {
+    public static int updateById(final String student_id, final String student_name , final String major_id, final Integer grade, final String contact) {
 
         ResultSet rs = null;
         PreparedStatement psmtQuery = null;
@@ -149,10 +150,10 @@ public class StudentService {
             psmtQuery.setString(1, student_id);
             rs = psmtQuery.executeQuery();
             if (rs.next()) {
-                String updateStatement = "UPDATE porder SET name = ?, major_id = ?, grade = ?, contact = ?  WHERE order_no = ?";
+                String updateStatement = "UPDATE student SET student_name = ?, major_id = ?, grade = ?, contact = ?  WHERE student_id = ?";
                 psmtUpdate = conn.prepareStatement(updateStatement);
 
-                psmtUpdate.setString(1, name);
+                psmtUpdate.setString(1, student_name);
                 psmtUpdate.setString(2, major_id);
                 psmtUpdate.setInt(3, grade);
                 psmtUpdate.setString(4, contact);

@@ -25,7 +25,7 @@ public class MajorService {
 
         try (Connection conn = DriverManager.getConnection(Conf.DB_URL, Conf.DB_USER, Conf.DB_PASSWORD)) {
 
-            String query = "SELECT * FROM major"";
+            String query = "SELECT * FROM major";
             psmtQuery = conn.prepareStatement(query);
             rs = psmtQuery.executeQuery();
             while (rs.next()) {
@@ -89,7 +89,7 @@ public class MajorService {
 
         try (Connection conn = DriverManager.getConnection(Conf.DB_URL, Conf.DB_USER, Conf.DB_PASSWORD)) {
             conn.setAutoCommit(false);
-            String insertStatement = "INSERT INTO student VALUES (?,?,?)";
+            String insertStatement = "INSERT INTO major VALUES (?,?,?)";
 
             psmtUpdate = conn.prepareStatement(insertStatement);
 
@@ -144,7 +144,7 @@ public class MajorService {
             psmtQuery.setString(1, major_id);
             rs = psmtQuery.executeQuery();
             if (rs.next()) {
-                String updateStatement = "UPDATE major SET major_name = ?, classfication = ?  WHERE major_id = ?";
+                String updateStatement = "UPDATE major SET major_name = ?, classification = ?  WHERE major_id = ?";
                 psmtUpdate = conn.prepareStatement(updateStatement);
 
                 psmtUpdate.setString(1, major_name);
@@ -179,8 +179,7 @@ public class MajorService {
     }
     public static int deleteById(final String major_id) {
         PreparedStatement psmtQuery = null;
-        PreparedStatement psmtDeleteParticipation = null;
-        PreparedStatement psmtDeleteStudent = null;
+        PreparedStatement psmtDeleteMajor = null;
 
         try (Connection conn = DriverManager.getConnection(Conf.DB_URL, Conf.DB_USER, Conf.DB_PASSWORD)) {
             conn.setAutoCommit(false);
@@ -195,19 +194,15 @@ public class MajorService {
                 }
             }
 
-            String deleteParticipationQuery = "DELETE FROM participation_student WHERE student_id = ?";
-            psmtDeleteParticipation = conn.prepareStatement(deleteParticipationQuery);
-            psmtDeleteParticipation.setString(1, student_id);
-            int participationDeletedCount = psmtDeleteParticipation.executeUpdate();
 
-            String deleteStudentQuery = "DELETE FROM student WHERE student_id = ?";
-            psmtDeleteStudent = conn.prepareStatement(deleteStudentQuery);
-            psmtDeleteStudent.setString(1, student_id);
-            int studentDeletedCount = psmtDeleteStudent.executeUpdate();
+            String deleteStudentQuery = "DELETE FROM major WHERE major_id = ?";
+            psmtDeleteMajor = conn.prepareStatement(deleteStudentQuery);
+            psmtDeleteMajor.setString(1, major_id);
+            int majorDeletedCount = psmtDeleteMajor.executeUpdate();
 
-            if (studentDeletedCount > 0) {
+            if (majorDeletedCount > 0) {
                 conn.commit();
-                return studentDeletedCount;
+                return majorDeletedCount;
             } else {
                 conn.rollback();
                 return -1;
@@ -221,8 +216,8 @@ public class MajorService {
             // 리소스 정리
             try {
                 if (psmtQuery != null) psmtQuery.close();
-                if (psmtDeleteParticipation != null) psmtDeleteParticipation.close();
-                if (psmtDeleteStudent != null) psmtDeleteStudent.close();
+
+                if (psmtDeleteMajor != null) psmtDeleteMajor.close();
             } catch (SQLException ignored) {
             }
         }

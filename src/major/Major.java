@@ -15,11 +15,11 @@ public class Major {
 
     }
 
-    public String getMajor_id() {
+    public String getMajorId() {
         return major_id;
     }
 
-    public String getMajor_name() {
+    public String getMajorName() {
         return major_name;
     }
 
