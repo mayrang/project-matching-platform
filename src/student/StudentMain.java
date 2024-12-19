@@ -7,7 +7,7 @@ public class StudentMain {
     public static void main(String[] args) {
         // 1. 학생 추가 테스트
         System.out.println("=== 학생 추가 테스트 ===");
-        String newStudentId = StudentService.insert("S2024001", "김철수", "CS001", 2, "010-1234-5678");
+        String newStudentId = StudentService.insert("20221018", "신짱구", "CS001", 2, "010-1234-5678");
         if (newStudentId != null) {
             System.out.println("새 학생 추가 성공: " + newStudentId);
         } else {
@@ -39,14 +39,14 @@ public class StudentMain {
         }
 
         // 5. 학생 삭제 테스트
-        System.out.println("\n=== 학생 삭제 테스트 ===");
-        int deleteResult = StudentService.deleteById("S2024001");
-        if (deleteResult > 0) {
-            System.out.println("학생 삭제 성공: " + deleteResult + "명 삭제");
-        } else if (deleteResult == 0) {
-            System.out.println("삭제할 학생 없음");
-        } else {
-            System.out.println("학생 삭제 실패");
-        }
+//        System.out.println("\n=== 학생 삭제 테스트 ===");
+//        int deleteResult = StudentService.deleteById("S2024001");
+//        if (deleteResult > 0) {
+//            System.out.println("학생 삭제 성공: " + deleteResult + "명 삭제");
+//        } else if (deleteResult == 0) {
+//            System.out.println("삭제할 학생 없음");
+//        } else {
+//            System.out.println("학생 삭제 실패");
+//        }
     }
 }
