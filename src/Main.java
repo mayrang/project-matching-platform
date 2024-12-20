@@ -291,24 +291,24 @@ public class Main {
 
     // 평판 작성, 수정, 삭제
     private static void manageReputation(Scanner scanner) {
-        System.out.println("\n평판을 작성, 수정, 삭제할 수 있습니다.");
-        System.out.print("평판 내용: ");
-        String reputationText = scanner.nextLine();
-        System.out.print("평판 점수: ");
-        int valuation_score = Integer.parseInt(scanner.nextLine());
+        System.out.print("평판 수정/삭제 여부 (수정/삭제): ");
+        String action = scanner.nextLine();
         System.out.print("해당 사용자 ID: ");
         String student_id = scanner.nextLine();
 
-        System.out.print("평판 수정/삭제 여부 (수정/삭제): ");
 
-
-        String action = scanner.nextLine();
 
 
         try {
             if ("수정".equals(action)) {
                 System.out.print("평판  ID: ");
                 int reviewerId = Integer.parseInt(scanner.nextLine());
+
+
+                System.out.print("평판 내용: ");
+                String reputationText = scanner.nextLine();
+                System.out.print("평판 점수: ");
+                int valuation_score = Integer.parseInt(scanner.nextLine());
 
                 ReputationService.update(reviewerId, valuation_score, reputationText);
                 System.out.println("평판이 수정되었습니다.");
@@ -319,6 +319,12 @@ public class Main {
                 ReputationService.delete(reviewerId);
                 System.out.println("평판이 삭제되었습니다.");
             } else {
+
+                System.out.print("평판 내용: ");
+                String reputationText = scanner.nextLine();
+                System.out.print("평판 점수: ");
+                int valuation_score = Integer.parseInt(scanner.nextLine());
+
                 ReputationService.insert(student_id, valuation_score, reputationText);
                 System.out.println("평판이 작성되었습니다.");
             }
